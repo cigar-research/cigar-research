@@ -5,7 +5,7 @@ import video_funcs
 import matplotlib.pyplot as plt
 
 A_msmts = ["A" + str(i+1) for i in range(6)]
-frame_step = 10
+frame_step = 1
 
 for m in A_msmts:
     print("Analysing measurement " + m)
