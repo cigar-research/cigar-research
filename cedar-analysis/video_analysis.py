@@ -19,7 +19,7 @@ for m in A_msmts:
     frames = np.arange(0, frames, frame_step)
     data_points = frames.size
 
-    flame_tracked_data = np.zeros((data_points, 5))
+    flame_tracked_data = np.zeros((data_points, 6))
 
     success = True
     i = 0
@@ -39,7 +39,8 @@ for m in A_msmts:
                 # plt.scatter(flame_center[1], flame_center[0])
                 # plt.show()
                 geo_coord = np.dot(anchor_vector, flame_center[::-1]) / anchor_length ** 2
-                flame_tracked_data[i, :] = [f, flame_pixels, flame_center[1], flame_center[0], geo_coord]
+                flame_tracked_data[i, :] = [f, flame_pixels, flame_center[1], flame_center[0], geo_coord,
+                                            flame_pixels / (anchor_length**2)]
                 i += 1
             else:
                 print("No flame detected")
