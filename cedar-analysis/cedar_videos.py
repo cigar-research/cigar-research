@@ -168,6 +168,10 @@ SBG_vert_separation = {
 
 SBG_measurements = []
 
-SBG_measurements += ["S" + str(i+1) for i in range(14)]
-SBG_measurements += ["H" + str(i+1) for i in range(8)]
-SBG_measurements += ["HE" + str(i+1) for i in range(2)]
+H_msmts = ["S" + str(i+1) for i in range(14)]
+S_msmts = ["H" + str(i+1) for i in range(8)]
+HE_msmts = ["HE" + str(i+1) for i in range(2)]
+
+SBG_measurements += S_msmts
+SBG_measurements += H_msmts
+SBG_measurements += HE_msmts
