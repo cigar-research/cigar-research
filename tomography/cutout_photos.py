@@ -9,17 +9,14 @@ from importlib import reload
 from matplotlib import rc
 import cv2
 
+import tomo_data
+
 # data_dir = "/Users/jesse/Data/SOC/2018-02-16 Tomografie/data"
 # photo_dir = "/Users/jesse/Data/SOC/2018-02-16 Tomografie/gesorteerd"
 
-data_dir = r"Z:\projects\cigar\fototomografie en 3D printen\data"
-photo_dir_edited = r"Z:\projects\cigar\fototomografie en 3D printen\fotos\gesorteerd bewerkt"
-photo_dir_orig = r"Z:\projects\cigar\fototomografie en 3D printen\fotos\gesorteerd"
 
-photo_edited_fn_format = os.path.join(photo_dir_edited, "plak_%03d_%s%d.JPG")
-photo_orig_fn_format = os.path.join(photo_dir_orig, "plak_%03d_%s%d.JPG")
-data_fn_format = os.path.join(data_dir, "data_plak_%03d_%s%d.npz")
-cutout_fn_format = os.path.join(data_dir, "cutout_plak_%03d_%s%d.jpg")
+
+
 
 
 def compose(f1, f2):
@@ -47,15 +44,15 @@ def get_valid_photo_ids():
         for kant in ['a', 'v']:
             for poging in range(9):
                 photo_id = (plak, kant, poging)
-                fname = photo_orig_fn_format % photo_id
+                fname = tomo_data.photo_orig_fn_format % photo_id
                 if os.path.isfile(fname):
                     photo_ids.append(photo_id)
     return photo_ids
 
 
 def generate_cutout(ph_id, th, closing_size, opening_size, th_below=True):
-    edited_img = io.imread(photo_edited_fn_format % ph_id)[::-1, :, :]
-    orig_img = io.imread(photo_orig_fn_format % ph_id)[::-1, :, :]
+    edited_img = io.imread(tomo_data.photo_edited_fn_format % ph_id)[::-1, :, :]
+    orig_img = io.imread(tomo_data.photo_orig_fn_format % ph_id)[::-1, :, :]
     gscale_img = color.rgb2gray(edited_img)
     red_img = edited_img[:, :, 0]
     grn_img = edited_img[:, :, 1]
@@ -78,12 +75,12 @@ def generate_cutout(ph_id, th, closing_size, opening_size, th_below=True):
 
     cutout_image = cutout_image[minc[1]:maxc[1], minc[0]:maxc[0], :]
 
-    np.savez_compressed(data_fn_format % ph_id,
+    np.savez_compressed(tomo_data.data_fn_format % ph_id,
                         contour_data = contour_data,
                         cutout_image = cutout_image
                         )
 
-    io.imsave(cutout_fn_format % ph_id, cutout_image[::-1,:,:], quality=100)
+    io.imsave(tomo_data.cutout_fn_format % ph_id, cutout_image[::-1,:,:], quality=100)
 
     return cutout_image
 
