@@ -38,13 +38,13 @@ def get_circular_kernel(size):
     return kernel
 
 
-def get_valid_photo_ids():
+def get_valid_photo_ids(fnf=tomo_data.photo_orig_fn_format):
     photo_ids = []
     for plak in range(30):
         for kant in ['a', 'v']:
             for poging in range(9):
                 photo_id = (plak, kant, poging)
-                fname = tomo_data.photo_orig_fn_format % photo_id
+                fname = fnf % photo_id
                 if os.path.isfile(fname):
                     photo_ids.append(photo_id)
     return photo_ids

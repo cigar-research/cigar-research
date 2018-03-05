@@ -207,7 +207,7 @@ class Main(QMainWindow, Ui_MainWindow):
         self.zoom_center_pt = None
 
     def load_image_list(self):
-        self.image_list = cutout_photos.get_valid_photo_ids()
+        self.image_list = cutout_photos.get_valid_photo_ids(tomo_data.cutout_selected_fn_format)
         self.image_status = [""] * len(self.image_list)
 
         self.imageTable.setColumnCount(2)
@@ -410,7 +410,7 @@ class Main(QMainWindow, Ui_MainWindow):
         # https://stackoverflow.com/questions/5252170/specify-image-filling-color-when-rotating-in-python-with-pil-and-setting-expand
         pil_img = Image.fromarray(demarkered_img)
         pil_imga = pil_img.convert("RGBA")
-        pil_rot_imga = pil_imga.rotate(np.rad2deg(r_angle), resample=Image.BILINEAR, expand=True)
+        pil_rot_imga = pil_imga.rotate(np.rad2deg(r_angle), resample=Image.NEAREST, expand=True)
         pil_white_imga = Image.new("RGBA", pil_rot_imga.size, (255,) * 4)
         pil_out_imga = Image.composite(pil_rot_imga, pil_white_imga, pil_rot_imga)
         pil_out_img = pil_out_imga.convert(pil_img.mode)
